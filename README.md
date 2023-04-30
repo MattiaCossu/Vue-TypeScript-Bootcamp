@@ -14,7 +14,10 @@ This project is the result of my learning journey with Vue.js and TypeScript. In
    - [Functions and Parameters](#functions-and-parameters)
    - [Function Return Type Inference](#function-return-type-inference)
    - [Inline Function Type Inference](#inline-function-type-inference)
-3. [Conclusion](#conclusion)
+3. [Props with Compiler Macros](#props-with-compiler-macros)
+  - [Defining Props and Types with `defineProps`](#defining-props-and-types)
+  - [Default Prop Values with `withDefaults`](#default-prop-values)
+4. [Conclusion](#conclusion)
 
 ## Reactive Variables with Type Inference <a name="reactive-variables-with-type-inference"></a>
 
@@ -114,6 +117,57 @@ fetchCount(cb)
 ```
 
 In summary, TypeScript's type inference can effectively deduce the types of callback functions and their parameters in most cases. It's important to remember to provide explicit type annotations when type inference fails to give TypeScript enough information to infer the correct types.
+
+## Props with Compiler Macros <a name="props-with-compiler-macros"></a>
+
+In Vue.js and TypeScript, we can define props and their types using the `defineProps` function, which is a compiler macro. Compiler macros are only called during compile-time and don't appear in the runtime code. They can only be used within `<script setup>`.
+
+### Defining Props and Types with `defineProps` <a name="defining-props-and-types"></a>
+
+To define props and their types using `defineProps`, we can either use a generic type argument or a function argument.
+
+Using a generic type argument:
+
+```typescript
+interface Props {
+  limit: number,
+  alertMessageOnLimit: string
+}
+
+const props = defineProps<Props>()
+```
+
+Using a function argument:
+
+```typescript
+const props = defineProps({
+  limit: { type: Number, required: true },
+  alertMessageOnLimit: { type: String, required: true },
+})
+```
+
+Both of these methods provide static type checking for props. However, using a generic type argument is the recommended method as it's in pure TypeScript.
+
+### Default Prop Values with withDefaults <a name="default-prop-values"></a>
+
+To define default values for props, we can use the withDefaults function in combination with defineProps. First, we need to make the prop optional in the interface:
+
+```typescript
+interface Props {
+  limit: number;
+  alertMessageOnLimit?: string;
+}
+```
+
+Next, we use withDefaults to set the default value for the optional prop:
+
+```typescript
+const props = withDefaults(defineProps<Props>(), {
+  alertMessageOnLimit: 'can not go any higher',
+})
+```
+
+By using withDefaults and defineProps in a function composition pattern, we can define default values for optional props in a clean and efficient way.
 
 ## Conclusion <a name="conclusion"></a>
 

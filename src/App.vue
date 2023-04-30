@@ -1,44 +1,18 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed } from 'vue'
-import fetchCount from './services/fetchCount.ts' // a mock fetch function
+import { reactive } from 'vue'
+import Counter from './components/Counter.vue'
 
-// beyond type inference, you can also explicitly declare the type of a variable
-interface appInfo {
+// define the type of the appInfo object
+interface AppInfo {
   name: string
   slogan: string
 }
 
-// ref data with type inference
-const count = ref<number | null>(null)
-
-//http simulation
-onMounted(() => {
-  fetchCount((initialCount: number) => {
-    count.value = initialCount
-  })
-})
-
-//reactive data
-const appInfo: appInfo = reactive({
+// create a reactive object with the AppInfo type
+const appInfo: AppInfo = reactive({
   name: 'Counter',
   slogan: 'an app you can count on'
 })
-
-// define a function
-function addCount(num: number) {
-  if (count.value !== null) {
-    count.value += num
-  }
-}
-
-// computed data with type inference
-const nextCount = computed(() => {
-  if (count.value !== null) {
-    return count.value + 1
-  }
-  return null
-})
-
 </script>
 
 <template>
@@ -46,8 +20,8 @@ const nextCount = computed(() => {
     <h1>{{ appInfo.name }}</h1>
     <h2>{{ appInfo.slogan }}</h2>
   </div>
-  <p>Count is: {{ count }}</p>
-  <p>
-    <button @click="addCount(1)">Add</button>
-  </p>
+  <Counter 
+    :limit="10"
+  >
+  </Counter>
 </template>
