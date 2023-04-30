@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import fetchCount from '../services/fetchCount'
+import ControlBar from './ControlBar.vue';
 
 // Verbose way:
 // define the type of the props object
@@ -12,7 +13,7 @@ interface Props {
 // define the props object with the Props type and set default values for the props object properties 
 // withDefaults is a function from the vue package that allows us to set default values for props
 const props = withDefaults(defineProps<Props>(), {
-    alertMessageOnLimit: 'can not go any higher'
+  alertMessageOnLimit: 'can not go any higher'
 })
 
 // define ref for count and initialize it to null (because we don't know the value yet)
@@ -50,12 +51,10 @@ const props = defineProps({
   limit: { type: Number, required: true },
   alertMessageOnLimit: { type: String, required: true }
 })
-*/ 
+*/
 </script>
 
 <template>
   <p>{{ count }}</p>
-  <p>
-    <button @click="addCount(1)">Add</button>
-  </p>
+  <ControlBar @addCount="addCount" @resetCount="count = 0" />
 </template>

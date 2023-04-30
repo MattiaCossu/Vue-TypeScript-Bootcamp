@@ -17,7 +17,10 @@ This project is the result of my learning journey with Vue.js and TypeScript. In
 3. [Props with Compiler Macros](#props-with-compiler-macros)
    - [Defining Props and Types with `defineProps`](#defining-props-and-types)
    - [Default Prop Values with `withDefaults`](#default-prop-values)
-4. [Conclusion](#conclusion)
+4. [Type-Safe Emit](#type-safe-emit)
+   - [Emit](#emit)
+   - [Inline Event Handling](#inline-event-handling)
+5. [Conclusion](#conclusion)
 
 ## Reactive Variables with Type Inference <a name="reactive-variables-with-type-inference"></a>
 
@@ -168,6 +171,45 @@ const props = withDefaults(defineProps<Props>(), {
 ```
 
 By using withDefaults and defineProps in a function composition pattern, we can define default values for optional props in a clean and efficient way.
+
+## Type-Safe Emit <a name="type-safe-emit"></a>
+### Emit <a name="emit"></a>
+- Introduction to the new annotation syntax for emitted events (emit)
+- Using defineEmits to define the events the component is allowed to emit
+
+```typescript
+<script setup lang="ts">
+const emit = defineEmits<{ 
+  (event: 'add-count', num: number): void
+  (event: 'reset-count'): void
+}>()
+</script>
+```
+
+Examples of how to modify the template to emit events and handle errors if emitting unspecified events
+
+```typescript
+<template>
+  <p>
+    <button @click="emit('add-count', 1)">Add</button>
+    <button @click="emit('reset-count')">Reset</button>
+  </p>
+</template>
+```
+
+Explanation of how Vue derives the type of function required for handling the emitted event
+
+### Inline Event Handling <a name="inline-event-handling"></a>
+Handling events inline in the parent component
+
+```typescript
+<ControlBar 
+  @add-count="addCount"
+  @reset-count="count = 0"
+></ControlBar>
+```
+
+Explanation of how statements are compiled into functions and accepted as callbacks
 
 ## Conclusion <a name="conclusion"></a>
 
