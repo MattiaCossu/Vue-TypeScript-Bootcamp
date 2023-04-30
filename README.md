@@ -15,8 +15,8 @@ This project is the result of my learning journey with Vue.js and TypeScript. In
    - [Function Return Type Inference](#function-return-type-inference)
    - [Inline Function Type Inference](#inline-function-type-inference)
 3. [Props with Compiler Macros](#props-with-compiler-macros)
-  - [Defining Props and Types with `defineProps`](#defining-props-and-types)
-  - [Default Prop Values with `withDefaults`](#default-prop-values)
+   - [Defining Props and Types with `defineProps`](#defining-props-and-types)
+   - [Default Prop Values with `withDefaults`](#default-prop-values)
 4. [Conclusion](#conclusion)
 
 ## Reactive Variables with Type Inference <a name="reactive-variables-with-type-inference"></a>
